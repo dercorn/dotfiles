@@ -1,54 +1,71 @@
-set nocompatible " be iMproved
-filetype off " required!
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
-set number
-set autoindent
-set smartindent
-set laststatus=2
-set encoding=utf-8
-set t_Co=256
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-Plugin 'bling/vim-airline'
-let g:airline_powerline_fonts = 1 
-Plugin 'bronson/vim-trailing-whitespace'
-Plugin 'godlygeek/tabular'
-Plugin 'rodjek/vim-puppet'
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-"Plugin 'L9'
-" Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" -- Interface --
+syntax enable
+set noshowmode
+set modeline
+"set background=dark
+colorscheme solarized
+"colorscheme default
+set mouse=a
+set re=0
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just
-" :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to
-" auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" -- vim-plug --
+call plug#begin()
+Plug 'andrewstuart/vim-kubernetes'
+Plug 'bling/vim-airline'
+let g:airline_powerline_fonts = 1
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'godlygeek/tabular'
+Plug 'luochen1990/rainbow'
+Plug 'rodjek/vim-puppet'
+Plug 'tpope/vim-fugitive'
+"Plug 'tommcdo/vim-fubitive'
+"Plug 'martinda/Jenkinsfile-vim-syntax'
+Plug 'arcticicestudio/nord-vim'
+Plug 'altercation/vim-colors-solarized'
+
+" On-demand loading
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+" Initialize plugin system
+call plug#end()
+
+
+" -- enable Jenkins syntax highlighting --
+au BufNewFile,BufRead Jenkinsfile setf groovy
+
+" -- Tabs --
+set nocompatible " be iMproved
+"filetype off " required!
+set number
+set relativenumber
+set cursorcolumn
+"set autoindent
+"set smartindent
+"set laststatus=2
+"set encoding=utf-8
+"set t_Co=256
+
+" -- Auto-reload .vimrc --
+autocmd bufwritepost .vimrc source $MYVIMRC
+
+" -- Tabs --
+set expandtab               " Do insert spaces for tabs
+set tabstop=2               " How many spaces should be displayed as one tab
+set shiftwidth=0            " How many spaces should be inserted as one tab; If set to '0', it uses tabstop value
+"filetype plugin indent on  " Different behaviour based on filetype
+
+" -- Search --
+set ignorecase              " Ignore case on matching
+set smartcase               " But only when search is all lower case
+set incsearch               " Incremental searching
+set hlsearch                " Highlight matches
+nnoremap n nzz              " Focus highlight in the middle of the screen
+nnoremap N Nzz              " Focus highlight in the middle of the screen
+nnoremap <CR> :noh<CR><CR>  " Clear search with Enter
+" Show meta chars
+set list
+set listchars=eol:¬,tab:··,trail:~,extends:>,precedes:<,nbsp:☂
+
+" -- Rainbow Parentheses --
+"let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
+
