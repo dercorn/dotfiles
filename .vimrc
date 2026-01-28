@@ -3,8 +3,7 @@ syntax enable
 set noshowmode
 set modeline
 set background=dark
-"colorscheme solarized
-colorscheme default
+colorscheme solarized
 set mouse=a
 set re=0
 
@@ -24,7 +23,6 @@ Plug 'arcticicestudio/nord-vim'
 " Themes
 Plug 'altercation/vim-colors-solarized'
 Plug 'ray-x/aurora'
-"colorscheme aurora
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -32,6 +30,18 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 " Initialize plugin system
 call plug#end()
 
+" change background color in insert mode
+autocmd InsertEnter * highlight Normal guibg=#3a1a1a  " dark red
+autocmd InsertLeave * highlight Normal guibg=NONE    " reset
+
+" If the terminal supports true color
+if exists('+termguicolors')
+  set termguicolors
+endif
+
+" -- darker relative line numbers --
+highlight LineNr ctermfg=245 guifg=#767676  " dim color for non-active line numbers
+highlight CursorLineNr ctermfg=229 guifg=#fabd2f cterm=bold gui=bold  " current line (brighter)
 
 " -- enable Jenkins syntax highlighting --
 au BufNewFile,BufRead Jenkinsfile setf groovy
@@ -59,6 +69,12 @@ set expandtab               " Do insert spaces for tabs
 set tabstop=2               " How many spaces should be displayed as one tab
 set shiftwidth=0            " How many spaces should be inserted as one tab; If set to '0', it uses tabstop value
 "filetype plugin indent on  " Different behaviour based on filetype
+
+" -- better indentation for YAML files --
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" -- make indentations more visible
+let g:indentLine_char = '⦙'
 
 " -- Search --
 set ignorecase              " Ignore case on matching
